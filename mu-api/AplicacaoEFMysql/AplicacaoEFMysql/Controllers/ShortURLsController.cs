@@ -79,6 +79,10 @@ namespace AplicacaoEFMysql.Controllers
                 if(string.IsNullOrWhiteSpace(shortURL.shortUrl))
                 {
                     shortURL.shortUrl = GenerateShortURL(5);
+                    while (await _context.ShortURLs.FirstOrDefaultAsync(q => q.shortUrl == shortURL.shortUrl) != null)
+                    {
+                        shortURL.shortUrl = GenerateShortURL(5);
+                    }
                 }
                 _context.ShortURLs.Add(shortURL);
                 await _context.SaveChangesAsync();
